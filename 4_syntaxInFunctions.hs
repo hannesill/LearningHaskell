@@ -1,4 +1,4 @@
--- Pattern matching
+-- 1) Pattern matching
 
 sayNum :: (Integral a) => a -> String
 sayNum 1 = "One"
@@ -35,7 +35,7 @@ firstLetter :: String -> String
 firstLetter "" = "Empty string has no first letter!"
 firstLetter letters@(x:_) = "The first letter of " ++ letters ++ " is " ++ [x]
 
--- Guards
+-- 2) Guards
 tellBMI :: (RealFloat a) => a -> a -> String
 tellBMI weight height
   | weight / height^2 <= 18.5 = "Underweight"
@@ -49,12 +49,42 @@ myCompare a b
   | a > b = GT
   | otherwise = EQ
 
--- Where
+-- 3) Where
+-- Either after guards 
+tellBMI' :: (RealFloat a) => a -> a -> String
+tellBMI' weight height
+  | bmi <= skinny = "Underweight"
+  | bmi <= normal = "Normal"
+  | bmi <= overweight = "Overweight" 
+  | otherwise = "Massive"
+  where bmi = weight / height^2
+        skinny = 18.5
+        normal = 25.0
+        overweight = 30.0
+
+-- or after patterns
+initials :: String -> String -> String
+initials firstname lastname = [f] ++ "." ++ [l] ++ "."
+  where (f:_) = firstname
+        (l:_) = lastname
+
+-- where can also store functions
+calcBMIs :: (RealFloat a) => [(a,a)] -> [a]
+calcBMIs xs = [bmi w h | (w, h) <- xs]
+  where bmi w h = w / h^2
+
+-- 4) Let
+sumOfTriple :: (Num a) => (a,a,a) -> a
+sumOfTriple triple = let (a,b,c) = triple in a+b+c -- great for dismantling tuples
+
+-- difference to where is that let bindings are expressions not just 
+calcBMIs' :: (RealFloat a) => [(a,a)] -> [a]
+calcBMIs' xs = [bmi w h | (w,h) <- xs, let bmi w h = w / h^2]  
 
 
+-- 5) Case expressions
+describeList :: [a] -> String
+describeList xs = "The list is " ++ case xs of [] -> "empty"
+                                               [x] -> "a singleton list"
+                                               xs -> "a longer list"
 
--- Let
-
-
-
--- Case expressions
