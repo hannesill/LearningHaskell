@@ -50,19 +50,11 @@ firstItem = fst (1,2) -- =1
 secondItem = snd(1,2) -- =2
 enumerateLetters = zip [1..] ['A'..'E'] -- =[(1,A),(2,B),...,(5,E)]
 
+
 -- Exercise: Which right triangle that has integers for all sides and all sides are equal to or smaller than 10 has a perimeter of 24?
 
 solution = [(a,b,c) | a <- [1..10], b <- [1..10], c <- [1..10], a^2 + b^2 == c^2, a+b+c == 24]
 optimizedSolution = [(a,b,c) | c <- [1..10], b <- [1..c], a <- [1..b],
                       a^2 + b^2 == c^2, a+b+c == 24] -- if a is always the smallest side
 
-
-
-
-
-
-
-
-
-
-
+                      
